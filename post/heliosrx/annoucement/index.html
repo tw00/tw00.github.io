@@ -1,0 +1,94 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=generator content="Hugo 0.58.3"><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><meta name=author content="Thomas Weustenfeld"><meta property=og:url content=http://tw00.github.io/post/heliosrx/annoucement/><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http:\/\/tw00.github.io\/"},"articleSection":"post","name":"Announcing heliosRX","headline":"Announcing heliosRX","description":"The future of the web is real-time. With Firebase Realtime Database Google offers a great product to write real-time web applications without the hassle of setting up an infrastructure yourself. You just create a project and within minutes you have your backend up and running and can start developing.\nWhile getting started with Firebase is extremely easy, you\x26rsquo;ll soon run into some problems as your application is becoming more and more complex:","inLanguage":"en-US","author":"Thomas Weustenfeld","creator":"Thomas Weustenfeld","publisher":"Thomas Weustenfeld","accountablePerson":"Thomas Weustenfeld","copyrightHolder":"Thomas Weustenfeld","copyrightYear":"2020","datePublished":"2020-01-28 00:11:00 -0400 -0400","dateModified":"2020-01-28 00:11:00 -0400 -0400","url":"http:\/\/tw00.github.io\/post\/heliosrx\/annoucement\/","wordCount":"1127","keywords":["Blog"]}</script><title>Announcing heliosRX - Thomas Weustenfeld</title><meta property=og:title content="Announcing heliosRX - Thomas Weustenfeld"><meta property=og:type content=article><meta name=description content><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Source+Code+Pro|Lato:400,900"><link rel=stylesheet href=/css/journal.css><link rel=stylesheet href=/css/styles/hybrid.css><script src=https://cdn.jsdelivr.net/npm/vue></script><script src=/js/highlight.pack.js></script><script src=/js/highlight-vue.js></script><script>hljs.registerLanguage('vue',window.hljsDefineVue);hljs.initHighlightingOnLoad();</script><link href=/index.xml rel=alternate type=application/rss+xml title="Thomas Weustenfeld"></head><body><div class=container><nav class=site-nav><a href=http://tw00.github.io/>Index</a></nav><article class=post><header class=post-header><div class="post-title post-title-dark" style=background-image:url(/img/helios/helios-hero.png)><h1>Announcing heliosRX</h1><h2>A universal ORM library for Firebase Realtime Database and Vue</h2></div><time class=post-date datetime="2020-01-28 00:11:00 -0400">28 Jan 2020</time><div></div></header><p>The future of the web is real-time. With Firebase Realtime Database Google offers
+a great product to write real-time web applications without the hassle of setting
+up an infrastructure yourself. You just create a project and within minutes you have
+your backend up and running and can start developing.</p><p>While getting started with Firebase is extremely easy, you&rsquo;ll soon run into some
+problems as your application is becoming more and more complex:</p><ul><li><strong>Nested data</strong>: With Realtime Database your database is basically one big JSON-tree, which means you can nest your data as deep as you want, which means you have to manage <em>where</em> your data is located <em>somehow</em> (we&rsquo;ll talk about the pros and cons later)</li><li><strong>No Schema</strong>: While NoSQL is great as it gives you a lot of flexibility required in the early stage of development, you need more and more structure while you go</li><li><strong>Security rules</strong>: If you don&rsquo;t want that ANY user can write ANYTHING into your database (which you probably don&rsquo;t want), you have to write security rules,</li><li><strong>Codesharing</strong>: Usually modern applications are not just web applications, soon you want a mobile app or write some backend code for more advanced server-side logic</li><li><strong>Vendor Lock-in</strong>: Let&rsquo;s face it, once you decided to go with Realtime Database you get locked in. The only way out is to rewrite major parts of your application.</li><li><strong>Dealing with reactivity</strong>: In many cases, changes that were made in the database should be reflected in the client&rsquo;s UI</li></ul><h1 id=the-story-of-heliosrx>The story of heliosRX</h1><p>About 1.5 years ago, we started working on a new task- and time-management app,
+that makes it easy to plan out your day our week, while still having the usual
+task management tools like a kanban board.</p><p>As a bootstraped startup we were forced to spend our time and resources wisely,
+which is why we decided to go with Firebase as our backend. <code>heliosRX</code> is the
+result of working with Firebase and building a large application on top of
+Vue and Firebase. It is the foundation on which our web application was built.</p><p>The goal of this project was to:</p><ul><li>Write significantly less code</li><li>Have consistent data validation on client and server</li><li>Use an additional layer of abstraction and therefore less vendor lock-in</li></ul><p>Today I&rsquo;m happy to announce that heliosRX will be made open source under MIT license.
+I hope that it will help developers to write real-time web applications in
+significantly less time and with significantly less boilerplate.
+It will allow you to define the structure necessary to write web applications that scale.</p><h1 id=what-is-heliosrx>What is heliosRX?</h1><p>The basic idea behind heliosRX is:</p><p class="idea note">You describe your data structures by providing a schema once.
+Based on that schema heliosRX will generate a client (with automatic client-side validation)
+and a server ( = security rules).</p><p><strong>For the client you&rsquo;ll get:</strong></p><ul><li>A straight forward CRUD API<br>(<code>add()</code>, <code>subscribeNode()</code>, <code>update()</code>, <code>remove()</code>)</li><li>Automatic input validation<br>(better error messages during development, automatic user input validation)</li><li>Fully reactive state management &mdash; no Vuex needed<br>(although heliosRX currently uses a Vuex store internally)</li><li>Automatic type conversion for timestamps to <code>moment-js</code><br>(Realtime Database has no native type for dates)</li><li>Useful extensions of the API, like easy sorting of objects (<code>reorder()</code>), automatically generated keys for <code>v-for</code></li></ul><p><strong>For the backend you&rsquo;ll get:</strong></p><ul><li>Automatically generate Security Rules based on the schemata</li><li>The same codebase, which can be recycled for Cloud Functions, which gives you the <strong>exact same</strong> API on the backend</li></ul><h3 id=the-missing-link-between-firebase-and-vue>The missing link between Firebase and Vue</h3><p>Imagine data is changed on the server. Usually, you want to update your local state management, which then triggers a re-render of your templates. heliosRX provides the missing link between Firebase and Vue. While there are other libraries like <code>vuexfire</code>, that inspired heliosRX,
+from our experience there are certain limitations when things get bigger.</p><p>Consider the following simple example:</p><pre><code class=language-js>const taskModelDefinition = {
+  schema: {
+    fields: {
+      title:     { type: 'String', required: true },
+      createdAt: { type: 'ServerTimestamp' },
+      isDone:    { type: 'Boolean' },
+    }
+  }
+};
+
+export const task = new GenericStore(
+  '/user/{userId}/task/*', // This is where the data is stored in RTDB
+  taskModelDefinition );
+</code></pre><p>You define <em>where</em> your data is stored and what the data looks like. Of course,
+you can still nest your data and get all the benefits of a NoSQL database,
+this is just a simple example.</p><p>heliosRX provides a CLI which can generate security rules (in the <code>bolt</code> format),
+with:</p><pre><code>$&gt; helios rules
+
+type Task {
+  title:     String
+  createdAt: ServerTimestamp | Null
+  isDone:    Boolean | Null
+}
+</code></pre><p>Now a simple To-Do list would look like this:</p><pre><code class=language-html>&lt;template&gt;
+  &lt;ul&gt;
+    &lt;li v-for=&quot;task in tasks.items&quot; :key=&quot;task.$key&quot;&gt;
+      &lt;input type=&quot;checkbox&quot; @input=&quot;onCheckTask( task )&quot;&gt;
+      {{task.title}}
+      &lt;a href=&quot;#&quot; @click.prevent=&quot;onDeleteTask( task )&quot;&gt;del&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;input v-model=&quot;title&quot; /&gt;
+    &lt;button @click=&quot;onAddTask&quot; /&gt;
+  &lt;/ul&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+export default {
+  data() {
+    return {
+      title: &quot;&quot;
+    }
+  },
+  computed: {
+    tasks() {
+      return this.$models.task.subscribeList();
+    }
+  },
+  methods: {
+    onCheckTask( task ) {
+      task.isDone = !task.isDone;
+      task.save();
+    },
+    onAddTask() {
+      this.$models.task.add({
+        title: this.title
+      });
+    },
+    onDeleteTask( task ) {
+      task.remove();
+    }
+  }
+}
+&lt;/script&gt;
+</code></pre><p>heliosRX takes care that the template will rerender, by providing a reactive
+data model (<code>tasks</code>). In the background it creates a subscription to the database.
+If the data changes, the models internal data will get updated.</p><p>On top of that heliosRX mirrors the Realtime Database structure to a local Vuex store.
+This means you can create as many models as you want, they all point to the same data source
+and are therefore always consistent.</p><p>Also, let&rsquo;s say you already synced the user path (<code>/user/{userId}/</code>) before subscribing to
+the task list that is stored within the user (<code>/user/{userId}/task/{taskId}</code>). heliosRX will
+automatically create a model based on the already existing local data, without making a new server request.</p><h1 id=roadmap-and-whats-next>Roadmap and whats next?</h1><p>There are still a few major things I want to attack in the next few weeks:</p><ul><li>Vue 3.0 support</li><li>Typings for Typescript</li><li>Reduce package and get it as slim as possible</li><li>Extendable API for plugins and custom backends<br>(a GraphQL backend would be great!)</li><li>More documentation and examples, especially on best practices/recipes</li></ul><h1 id=try-it-and-give-feedback>Try it and give feedback</h1><p>heliosRX is available now and you can install it with:</p><pre><code>yarn add heliosrx
+# or
+npm install heliosrx
+</code></pre><p>Also check out the <a href=https://heliosrx.github.io/>Documentation</a>, especially the
+<a href=https://heliosrx.github.io/guide/basics/01-5-minute-intro.html>Tutorial</a></p><p>There is a lot of Gotchas when working with Firebase especially when writing Security Rules,
+the documentation has a collection of lessons learned and small tips, which I hope
+will help you to navigate around typical Realtime Database issues.</p><p>If you&rsquo;re looking for a basic example, please have a look at:</p><ul><li><a href=https://github.com/heliosRX/example-simple-todo>heliosRX/example-simple-todo</a></li></ul><p>For a more comprehensive example please check out:</p><ul><li><a href=https://github.com/heliosRX/example-fitness-tracker>heliosRX/example-fitness-tracker</a></li></ul><p>Let me know if you have any suggestions, improvements or if you encounter any bugs.</p><p>Thanks for reading 👋</p><h1 id=liked-it-follow-heliosrx-on-twitter>Liked it? Follow heliosRX on Twitter!</h1><ul><li><a href="https://twitter.com/intent/follow?screen_name=helios_rx">Follow @helios_rx on Twitter</a></li></ul></article><div id=disqus_thread></div><script>var disqus_config=function(){this.page.url="http:\/\/tw00.github.io\/post\/heliosrx\/annoucement\/";this.page.identifier="480b95e2103da825f93b456a5315c5d6";};(function(){var d=document,s=d.createElement('script');s.src='https://tw00-dev.disqus.com/embed.js';s.setAttribute('data-timestamp',+new Date());(d.head||d.body).appendChild(s);})();</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><footer class=site-footer><span itemscope itemtype=http://schema.org/Person><link itemprop=url href=http://tw00.github.io/><span itemprop=name>Thomas Weustenfeld,</span>
+<span itemprop=jobTitle>Co-Founder</span> at
+<span itemprop=memberOf itemscope itemtype=http://schema.org/Organization><a itemprop=url href=https://goalpilot.com/><span itemprop=name>Goalpilot</span></a></span><br><a itemprop=sameAs href=https://github.com/tw00 title=GitHub>Github</a>
+<a itemprop=sameAs href=https://twitter.com/t_weustenfeld title=Twitter>Twitter</a></span></footer></div><script type=text/javascript async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">MathJax.Hub.Config({tex2jax:{inlineMath:[['$','$'],['\\(','\\)']],displayMath:[['$$','$$']],processEscapes:true,processEnvironments:true,skipTags:['script','noscript','style','textarea','pre'],TeX:{equationNumbers:{autoNumber:"AMS"},extensions:["AMSmath.js","AMSsymbols.js"]}}});MathJax.Hub.Queue(function(){var all=MathJax.Hub.getAllJax(),i;for(i=0;i<all.length;i+=1){all[i].SourceElement().parentNode.className+=' has-jax';}});MathJax.Hub.Config({TeX:{equationNumbers:{autoNumber:"AMS"}}});</script></body></html>
