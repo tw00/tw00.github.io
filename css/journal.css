@@ -40,6 +40,10 @@ blockquote {
   margin: 0 0 1rem;
 }
 
+li p {
+  margin: 0;
+}
+
 hr {
   display: block;
   width: 100%;
@@ -150,10 +154,6 @@ section {
   margin-bottom: 1rem;
 }
 
-h1 {
-  font-size: 1.875rem;
-}
-
 h2,
 h3,
 h4,
@@ -162,20 +162,24 @@ h6 {
   margin: 0 0 0.5rem;
 }
 
-h2 {
+h1 {
   font-size: 2rem;
 }
 
+h2 {
+  font-size: 1.8rem;
+}
+
 h3 {
-  font-size: 1.75rem;
+  font-size: 1.6rem;
 }
 
 h4 {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
 }
 
 h5 {
-  font-size: 1.25rem;
+  font-size: 1.2rem;
 }
 
 h6 {
@@ -260,8 +264,8 @@ h6 {
 }
 
 .hljs {
+  font-size: 0.875rem;
   padding: 1rem;
-  font-size: 1rem;
   border-radius: 4px;
 }
 
@@ -274,7 +278,6 @@ article table:not(.highlight) td {
 p.note {
   background-color: #f0f7fb;
   border-left: solid 6px #3498db;
-  line-height: 18px;
   mc-auto-number-format: "{b}Note: {/b}";
   overflow: hidden;
   padding: 20px;
@@ -297,6 +300,29 @@ p.note {
   margin-left: 0.25rem;
   padding: 1px 8px;
   font-family: Helvetica;
+}
+
+.post-title {
+  background-position: bottom;
+  height: 600px;
+  background-size: cover;
+  color: black;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.post-title-dark {
+  color: white;
+}
+
+.post-title h1 {
+  font-size: 1.875rem;
+}
+
+.post-title h2 {
+  font-size: 1rem;
 }
 
 /*# sourceMappingURL=journal.css.map */
