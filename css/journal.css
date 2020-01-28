@@ -6,7 +6,7 @@
 }
 
 html {
-  background-color: #fbfbfb;
+  background-color: #f9f7f4;
   color: #303030;
   font-family: "Lato", serif;
   font-size: 1.125rem;
@@ -24,7 +24,6 @@ html {
 
 body {
   line-height: 1.6;
-  background: #f9f7f4;
 }
 
 html,
