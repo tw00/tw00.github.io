@@ -1,0 +1,327 @@
+@charset "UTF-8";
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background-color: #f9f7f4;
+  color: #303030;
+  font-family: "Lato", serif;
+  font-size: 1.125rem;
+  min-height: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+@media screen and (min-width: 800px) {
+  html {
+    font-size: 1.25rem;
+  }
+}
+
+body {
+  line-height: 1.6;
+}
+
+html,
+body {
+  margin: 0;
+}
+
+h1,
+p,
+figure,
+pre,
+blockquote {
+  margin: 0 0 1rem;
+}
+
+li p {
+  margin: 0;
+}
+
+hr {
+  display: block;
+  width: 100%;
+  height: 0;
+  margin: 2rem 0;
+  border: 0;
+  border-top: 1px solid #686868;
+}
+
+figure .representation {
+  display: block;
+}
+
+figure img {
+  border: 1px solid #eee;
+  border-radius: 3px;
+  margin: 0 auto;
+  display: block;
+}
+
+figcaption {
+  padding: 0 0.5rem 0.5rem;
+  font-size: 0.8125rem;
+  text-align: right;
+}
+figcaption .original::before {
+  content: " ";
+  display: block;
+}
+
+img {
+  max-width: 100%;
+}
+
+blockquote {
+  padding: 1rem;
+  border-left: 5px solid #e5e5e5;
+  color: #686868;
+  font-style: italic;
+}
+blockquote p {
+  margin: 0;
+}
+blockquote cite {
+  display: block;
+  margin: 1rem 0 0;
+  font-size: 0.875rem;
+  text-align: right;
+}
+
+a {
+  border-bottom: 1px solid currentColor;
+  color: currentColor;
+  text-decoration: none;
+}
+a:hover {
+  border-bottom-color: currentColor;
+  color: #686868;
+}
+
+ol,
+ul {
+  margin: 0 0 1rem 1.25rem;
+  padding: 0;
+  list-style-position: outside;
+}
+ol ol,
+ol ul,
+ul ol,
+ul ul {
+  margin-bottom: 0;
+}
+
+li {
+  margin: 0;
+}
+li:not(last-of-type) {
+  margin-bottom: 0.4rem;
+}
+
+abbr {
+  border-bottom: 1px dashed currentColor;
+  text-decoration: none;
+  cursor: help;
+}
+
+kbd,
+code,
+pre {
+  font-family: '"Source Code Pro"', monospace;
+  font-weight: bold;
+}
+
+pre {
+  max-width: 100%;
+}
+
+kbd,
+code {
+  margin: 0;
+  padding: 0.125rem 0.25rem 0;
+  background-color: #e5e5e5;
+}
+
+article,
+section {
+  display: block;
+  margin-bottom: 1rem;
+}
+
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0 0 0.5rem;
+}
+
+h1 {
+  font-size: 2rem;
+}
+
+h2 {
+  font-size: 1.8rem;
+}
+
+h3 {
+  font-size: 1.6rem;
+}
+
+h4 {
+  font-size: 1.4rem;
+}
+
+h5 {
+  font-size: 1.2rem;
+}
+
+h6 {
+  font-size: 1rem;
+}
+
+.container {
+  width: 100%;
+  max-width: 38rem;
+  margin: 0 auto;
+  padding: 0.5rem;
+}
+@media screen and (min-width: 800px) {
+  .container {
+    padding: 1rem 0;
+  }
+}
+
+.site-header,
+.site-nav {
+  margin-bottom: 2rem;
+}
+.site-header h1,
+.site-nav h1 {
+  margin-bottom: 0.5rem;
+}
+
+.site-nav a::before {
+  content: "←";
+  margin-right: 0.25rem;
+}
+
+.site-footer {
+  margin: 3rem 0 0;
+  font-size: 0.8125rem;
+}
+.site-footer [itemprop=sameAs] + [itemprop=sameAs] {
+  margin-left: 0.4rem;
+}
+@media screen and (min-width: 800px) {
+  .site-footer {
+    margin-bottom: 0.5rem;
+  }
+}
+
+.posts ol {
+  margin-left: 0;
+  list-style: none;
+}
+.posts li {
+  margin-bottom: 0.5rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  /* @media screen and (min-width: $break-small) {
+  } */
+}
+.posts time {
+  display: block;
+}
+@media screen and (min-width: 800px) {
+  .posts time {
+    flex: 0 0 5rem;
+  }
+}
+.posts time + a {
+  margin-left: 1rem;
+}
+@media screen and (min-width: 800px) {
+  .posts time + a {
+    margin-left: 2rem;
+  }
+}
+
+.post .post-header {
+  margin-bottom: 3rem;
+}
+.post .post-date {
+  display: block;
+  margin: 0 0 1rem;
+  text-align: right;
+}
+
+.hljs {
+  font-size: 0.875rem;
+  padding: 1rem;
+  border-radius: 4px;
+}
+
+article table:not(.highlight) th,
+article table:not(.highlight) td {
+  padding: 0.5rem;
+  border: 1px solid black;
+}
+
+p.note {
+  background-color: #f0f7fb;
+  border-left: solid 6px #3498db;
+  mc-auto-number-format: "{b}Note: {/b}";
+  overflow: hidden;
+  padding: 20px;
+}
+
+.draft-icon {
+  border-radius: 3px;
+  background: #db5252;
+  color: white;
+  margin-left: 0.5rem;
+  padding: 2px 7px;
+  font-family: Helvetica;
+  font-size: 8pt;
+}
+
+.tag {
+  border-radius: 3px;
+  border: 1px solid black;
+  background-color: #eee;
+  margin-left: 0.25rem;
+  padding: 1px 8px;
+  font-family: Helvetica;
+}
+
+.post-title {
+  background-position: bottom;
+  height: 600px;
+  background-size: cover;
+  color: black;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.post-title-dark {
+  color: white;
+}
+
+.post-title h1 {
+  font-size: 1.875rem;
+}
+
+.post-title h2 {
+  font-size: 1rem;
+}
+
+/*# sourceMappingURL=journal.css.map */
