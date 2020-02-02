@@ -1146,6 +1146,7 @@ h1 svg {
     background: none;
   }
 }
+/* Footer height */
 *,
 *::before,
 *::after {
@@ -1171,6 +1172,8 @@ html {
 
 body {
   line-height: 1.6;
+  position: relative;
+  min-height: 100vh;
 }
 
 html,
@@ -1370,6 +1373,10 @@ kbd, code {
   background-color: #ece6dd;
 }
 
+.container-spacing-bottom {
+  padding-bottom: 5rem !important;
+}
+
 .container {
   width: 100%;
   max-width: 768px;
@@ -1448,8 +1455,15 @@ kbd, code {
   margin-right: 0.25rem;
 }
 
+.content-wrap {
+  padding-bottom: 130px;
+}
+
 .site-footer {
-  margin: 3rem 0 0;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 130px;
   font-size: 0.8125rem;
   padding: 2rem;
   background: #ece6de;
