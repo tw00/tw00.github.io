@@ -2,4 +2,4 @@ User-agent: *
 
 
 
-Sitemap: http://tw00.github.io/sitemap.xml
+Sitemap: https://tw00.dev/sitemap.xml
