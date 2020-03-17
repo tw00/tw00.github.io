@@ -1394,14 +1394,14 @@ kbd, code {
   margin: 0 auto;
 }
 
-.container-wide article {
+.container-wide article.page-min {
   max-width: 70%;
   line-height: 1.3em;
   margin: 10rem 0;
   word-spacing: 4px;
 }
 @media screen and (max-width: 768px) {
-  .container-wide article {
+  .container-wide article.page-min {
     margin: 5rem 0;
     max-width: 100%;
   }
@@ -1482,7 +1482,7 @@ kbd, code {
   margin-left: 0.4rem;
 }
 
-.post-min {
+.page-min {
   font-size: 1.5rem;
 }
 
