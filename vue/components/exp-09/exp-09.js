@@ -97,7 +97,7 @@ exports = ___CSS_LOADER_API_IMPORT___(false);
 exports.i(___CSS_LOADER_AT_RULE_IMPORT_0___);
 exports.i(___CSS_LOADER_AT_RULE_IMPORT_1___);
 // Module
-exports.push([module.i, ".covid-sim{max-width:calc(800px + 2rem);margin:0 auto;position:relative}canvas#canvas-container,canvas#canvas-container-graph{border:2px solid #000;margin:0 1rem}.healed,.infected,.total{color:#fff;font-weight:700;font-family:monospace;margin:0;padding:1rem;display:block}.total{background-color:#90ee90}.infected{background-color:red}.healed{background-color:#00f}.flex{display:-webkit-box;display:-ms-flexbox;display:flex}.flex-column{-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column}.flex-buttons{-ms-flex-line-pack:justify;align-content:space-between;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;width:600px;margin:1rem auto}.covid-sim-controls{position:absolute;right:-330px;height:20px;margin-right:1rem}", ""]);
+exports.push([module.i, ".covid-sim{max-width:calc(800px + 2rem);margin:0 auto;position:relative}canvas#canvas-container,canvas#canvas-container-graph{border:2px solid #000}.healed,.infected,.total{color:#fff;font-weight:700;font-family:monospace;margin:0;padding:1rem;display:block}.total{background-color:#90ee90}.infected{background-color:red}.healed{background-color:#00f}.flex{display:-webkit-box;display:-ms-flexbox;display:flex}.flex-column{-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column}.flex-buttons{-ms-flex-line-pack:justify;align-content:space-between;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;width:600px;margin:1rem auto}.covid-sim-controls{position:absolute;right:-330px;height:20px;margin-right:1rem}", ""]);
 // Exports
 module.exports = exports;
 
@@ -5581,12 +5581,12 @@ function normalizeComponent (
   }
 }
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"44677abd-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/experiments/Experiment09.vue?vue&type=template&id=7370dd6d&shadow
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"44677abd-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/experiments/Experiment09.vue?vue&type=template&id=60c0cadf&shadow
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"covid-sim"},[(!_vm.isProduction)?_c('h1',{staticClass:"center"},[_vm._v("COVID-19 Simulator")]):_vm._e(),_c('div',{staticClass:"flex flex-column"},[_c('div',{ref:"covidsim",staticClass:"covid-sim-controls"}),_c('canvas',{ref:"canvasContainer",staticStyle:{"width":"800px","height":"480px"},attrs:{"id":"canvas-container","width":"1600","height":"960"}}),_c('hr'),_c('canvas',{ref:"canvasContainerGraph",staticStyle:{"width":"800px","height":"100px"},attrs:{"id":"canvas-container-graph","width":"1600","height":"200"}})]),_c('div',{staticClass:"flex flex-buttons"},[_c('span',{staticClass:"total"},[_vm._v("# Total: "+_vm._s(_vm.info.numTotal))]),_c('span',{staticClass:"healed"},[_vm._v("# Healed: "+_vm._s(_vm.info.numHealed))]),_c('span',{staticClass:"infected"},[_vm._v("# Infected: "+_vm._s(_vm.info.numInfected))])])])}
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/experiments/Experiment09.vue?vue&type=template&id=7370dd6d&shadow
+// CONCATENATED MODULE: ./src/experiments/Experiment09.vue?vue&type=template&id=60c0cadf&shadow
 
 // CONCATENATED MODULE: ./src/experiments/simulator/config.js
 var INFECTION_RADIUS = 25;
@@ -48356,7 +48356,7 @@ class gui_GUI {
     f2.auto_add(this, 'number_agents', 0, 200).step(1).name("# Agents");
     f2.auto_add(this, 'number_quarantined', 0, 250).step(1).name("# Quarantined");
     f2.auto_add(this, 'enable_debug').name("Enable Debug");
-    f2.auto_add(this, 'enable_boxes').name("Lock Down");
+    f2.auto_add(this, 'enable_boxes').name("Lockdown");
     f2.add(this, 'infect').name("Infect Random");
     f2.add(this, 'resetImmunity').name("Reset Immunity");
     f3.auto_add(this, 'infection_radius', 0, 150).name("Infection Radius");
