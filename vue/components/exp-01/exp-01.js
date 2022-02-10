@@ -1902,7 +1902,7 @@ function normalizeComponent (
   }
 }
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"687a3548-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/vue-loader/lib??vue-loader-options!./src/experiments/Experiment01.vue?vue&type=template&id=360a3ae1&scoped=true&shadow
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"6d4cc82e-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/vue-loader/lib??vue-loader-options!./src/experiments/Experiment01.vue?vue&type=template&id=360a3ae1&scoped=true&shadow
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"hello"},[_c('h1',[_vm._v("Experiment 01")]),_c('p',[_vm._v("Purpose: Test if wrapping a getter in a function, will disable caching.")]),_c('pre',[_vm._v("my_value1: "+_vm._s(_vm.my_value1))]),_c('pre',[_vm._v("my_value2: "+_vm._s(_vm.my_value2))]),_c('pre',[_vm._v("my_dep_value1: "+_vm._s(_vm.my_dep_value1))]),_c('pre',[_vm._v("my_dep_value2: "+_vm._s(_vm.my_dep_value2))]),_c('button',{on:{"click":function($event){_vm.SET_VALUE_A(Math.random())}}},[_vm._v("Button A")]),_c('button',{on:{"click":function($event){_vm.SET_VALUE_B(Math.random())}}},[_vm._v("Button B")])])}
 var staticRenderFns = []
 

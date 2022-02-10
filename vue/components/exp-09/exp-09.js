@@ -157,13 +157,14 @@ module.exports = String(test) === '[object z]';
 
 var uncurryThis = __webpack_require__("e330");
 var aCallable = __webpack_require__("59ed");
+var NATIVE_BIND = __webpack_require__("40d5");
 
 var bind = uncurryThis(uncurryThis.bind);
 
 // optional / simple context binding
 module.exports = function (fn, that) {
   aCallable(fn);
-  return that === undefined ? fn : bind ? bind(fn, that) : function (/* ...args */) {
+  return that === undefined ? fn : NATIVE_BIND ? bind(fn, that) : function (/* ...args */) {
     return fn.apply(that, arguments);
   };
 };
@@ -291,9 +292,9 @@ var DESCRIPTORS = __webpack_require__("83ab");
 var fails = __webpack_require__("d039");
 var createElement = __webpack_require__("cc12");
 
-// Thank's IE8 for his funny defineProperty
+// Thanks to IE8 for its funny defineProperty
 module.exports = !DESCRIPTORS && !fails(function () {
-  // eslint-disable-next-line es/no-object-defineproperty -- requied for testing
+  // eslint-disable-next-line es/no-object-defineproperty -- required for testing
   return Object.defineProperty(createElement('div'), 'a', {
     get: function () { return 7; }
   }).a != 7;
@@ -915,15 +916,16 @@ module.exports = function (iterator, kind, value) {
 /***/ }),
 
 /***/ "2ba4":
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
+
+var NATIVE_BIND = __webpack_require__("40d5");
 
 var FunctionPrototype = Function.prototype;
 var apply = FunctionPrototype.apply;
-var bind = FunctionPrototype.bind;
 var call = FunctionPrototype.call;
 
 // eslint-disable-next-line es/no-reflect -- safe
-module.exports = typeof Reflect == 'object' && Reflect.apply || (bind ? call.bind(apply) : function () {
+module.exports = typeof Reflect == 'object' && Reflect.apply || (NATIVE_BIND ? call.bind(apply) : function () {
   return call.apply(apply, arguments);
 });
 
@@ -1111,6 +1113,7 @@ function addStyle (obj /* StyleObjectPart */, shadowRoot) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var DESCRIPTORS = __webpack_require__("83ab");
+var V8_PROTOTYPE_DEFINE_BUG = __webpack_require__("aed9");
 var definePropertyModule = __webpack_require__("9bf2");
 var anObject = __webpack_require__("825a");
 var toIndexedObject = __webpack_require__("fc6a");
@@ -1119,7 +1122,7 @@ var objectKeys = __webpack_require__("df75");
 // `Object.defineProperties` method
 // https://tc39.es/ecma262/#sec-object.defineproperties
 // eslint-disable-next-line es/no-object-defineproperties -- safe
-module.exports = DESCRIPTORS ? Object.defineProperties : function defineProperties(O, Properties) {
+exports.f = DESCRIPTORS && !V8_PROTOTYPE_DEFINE_BUG ? Object.defineProperties : function defineProperties(O, Properties) {
   anObject(O);
   var props = toIndexedObject(Properties);
   var keys = objectKeys(Properties);
@@ -1224,6 +1227,20 @@ var uncurryThis = __webpack_require__("e330");
 // `thisNumberValue` abstract operation
 // https://tc39.es/ecma262/#sec-thisnumbervalue
 module.exports = uncurryThis(1.0.valueOf);
+
+
+/***/ }),
+
+/***/ "40d5":
+/***/ (function(module, exports, __webpack_require__) {
+
+var fails = __webpack_require__("d039");
+
+module.exports = !fails(function () {
+  var test = (function () { /* empty */ }).bind();
+  // eslint-disable-next-line no-prototype-builtins -- safe
+  return typeof test != 'function' || test.hasOwnProperty('prototype');
+});
 
 
 /***/ }),
@@ -6434,9 +6451,11 @@ var store = __webpack_require__("c6cd");
 (module.exports = function (key, value) {
   return store[key] || (store[key] = value !== undefined ? value : {});
 })('versions', []).push({
-  version: '3.20.0',
+  version: '3.21.0',
   mode: IS_PURE ? 'pure' : 'global',
-  copyright: '© 2021 Denis Pushkarev (zloirock.ru)'
+  copyright: '© 2014-2022 Denis Pushkarev (zloirock.ru)',
+  license: 'https://github.com/zloirock/core-js/blob/v3.21.0/LICENSE',
+  source: 'https://github.com/zloirock/core-js'
 });
 
 
@@ -6989,7 +7008,7 @@ function normalizeComponent (
   }
 }
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"687a3548-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/vue-loader/lib??vue-loader-options!./src/experiments/Experiment09.vue?vue&type=template&id=60c0cadf&shadow
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"6d4cc82e-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/vue-loader/lib??vue-loader-options!./src/experiments/Experiment09.vue?vue&type=template&id=60c0cadf&shadow
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"covid-sim"},[(!_vm.isProduction)?_c('h1',{staticClass:"center"},[_vm._v("COVID-19 Simulator")]):_vm._e(),_c('div',{staticClass:"flex flex-column"},[_c('div',{ref:"covidsim",staticClass:"covid-sim-controls"}),_c('canvas',{ref:"canvasContainer",staticStyle:{"width":"800px","height":"480px"},attrs:{"id":"canvas-container","width":"1600","height":"960"}}),_c('hr'),_c('canvas',{ref:"canvasContainerGraph",staticStyle:{"width":"800px","height":"100px"},attrs:{"id":"canvas-container-graph","width":"1600","height":"200"}})]),_c('div',{staticClass:"flex flex-buttons"},[_c('span',{staticClass:"total"},[_vm._v("# Total: "+_vm._s(_vm.info.numTotal))]),_c('span',{staticClass:"healed"},[_vm._v("# Healed: "+_vm._s(_vm.info.numHealed))]),_c('span',{staticClass:"infected"},[_vm._v("# Infected: "+_vm._s(_vm.info.numInfected))])])])}
 var staticRenderFns = []
 
@@ -8109,7 +8128,7 @@ function number_format(value, options) {
 
 function splitNumber(value) {
   // parse the input value
-  var match = String(value).toLowerCase().match(/^0*?(-?)(\d+\.?\d*)(e([+-]?\d+))?$/);
+  var match = String(value).toLowerCase().match(/^(-?)(\d+\.?\d*)(e([+-]?\d+))?$/);
 
   if (!match) {
     throw new SyntaxError('Invalid number ' + value);
@@ -10065,7 +10084,7 @@ var createComplexClass = /* #__PURE__ */factory_factory(Complex_name, Complex_de
   isClass: true
 });
 // CONCATENATED MODULE: ./node_modules/mathjs/lib/esm/version.js
-var version = '10.0.0'; // Note: This file is automatically generated when building math.js.
+var version = '10.1.1'; // Note: This file is automatically generated when building math.js.
 // Changes made in this file will be overwritten.
 // CONCATENATED MODULE: ./node_modules/mathjs/lib/esm/utils/lruQueue.js
 // (c) 2018, Mariusz Nowak
@@ -18137,23 +18156,27 @@ var createSparseMatrixClass = /* #__PURE__ */factory_factory(SparseMatrix_name, 
 
       if (!deepStrictEqual(iSize, sSize)) {
         throw new DimensionError(iSize, sSize, '>');
-      } // offsets
+      } // insert the sub matrix
 
 
-      var x0 = index.min()[0];
-      var y0 = index.min()[1]; // submatrix rows and columns
-
-      var m = sSize[0];
-      var n = sSize[1]; // loop submatrix
-
-      for (var x = 0; x < m; x++) {
-        // loop columns
-        for (var y = 0; y < n; y++) {
-          // value at i, j
-          var v = submatrix[x][y]; // invoke set (zero value will remove entry from matrix)
-
-          matrix.set([x + x0, y + y0], v, defaultValue);
-        }
+      if (iSize.length === 1) {
+        // if the replacement index only has 1 dimension, go trough each one and set its value
+        var range = index.dimension(0);
+        range.forEach(function (dataIndex, subIndex) {
+          validateIndex(dataIndex);
+          matrix.set([dataIndex, 0], submatrix[subIndex[0]], defaultValue);
+        });
+      } else {
+        // if the replacement index has 2 dimensions, go through each one and set the value in the correct index
+        var firstDimensionRange = index.dimension(0);
+        var secondDimensionRange = index.dimension(1);
+        firstDimensionRange.forEach(function (firstDataIndex, firstSubIndex) {
+          validateIndex(firstDataIndex);
+          secondDimensionRange.forEach(function (secondDataIndex, secondSubIndex) {
+            validateIndex(secondDataIndex);
+            matrix.set([firstDataIndex, secondDataIndex], submatrix[firstSubIndex[0]][secondSubIndex[0]], defaultValue);
+          });
+        });
       }
     }
 
@@ -28570,9 +28593,9 @@ var defineProperty_default = /*#__PURE__*/__webpack_require__.n(defineProperty);
 // CONCATENATED MODULE: ./node_modules/mathjs/lib/esm/function/arithmetic/round.js
 
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { defineProperty_default()(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { defineProperty_default()(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 
 
 
@@ -30954,6 +30977,64 @@ var createIdentity = /* #__PURE__ */factory_factory(identity_name, identity_depe
     }
 
     return res;
+  }
+});
+// CONCATENATED MODULE: ./node_modules/mathjs/lib/esm/function/arithmetic/invmod.js
+
+var invmod_name = 'invmod';
+var invmod_dependencies = ['typed', 'config', 'BigNumber', 'xgcd', 'equal', 'smaller', 'mod', 'add', 'isInteger'];
+var createInvmod = /* #__PURE__ */factory_factory(invmod_name, invmod_dependencies, _ref => {
+  var {
+    typed,
+    config,
+    BigNumber,
+    xgcd,
+    equal,
+    smaller,
+    mod,
+    add,
+    isInteger
+  } = _ref;
+
+  /**
+   * Calculate the (modular) multiplicative inverse of a modulo b. Solution to the equation `ax ≣ 1 (mod b)`
+   * See https://en.wikipedia.org/wiki/Modular_multiplicative_inverse.
+   *
+   * Syntax:
+   *
+   *    math.invmod(a, b)
+   *
+   * Examples:
+   *
+   *    math.invmod(8, 12)             // returns NaN
+   *    math.invmod(7, 13)             // return 2
+   *    math.invmod(15151, 15122)      // returns 10429
+   *
+   * See also:
+   *
+   *    gcd, xgcd
+   *
+   * @param {number | BigNumber} a  An integer number
+   * @param {number | BigNumber} b  An integer number
+   * @return {number | BigNumber }  Returns an integer number
+   *                              where `invmod(a,b)*a ≣ 1 (mod b)`
+   */
+  return typed(invmod_name, {
+    'number, number': invmod,
+    'BigNumber, BigNumber': invmod
+  });
+
+  function invmod(a, b) {
+    if (!isInteger(a) || !isInteger(b)) throw new Error('Parameters in function invmod must be integer numbers');
+    a = mod(a, b);
+    if (equal(b, 0)) throw new Error('Divisor must be non zero');
+    var res = xgcd(a, b);
+    res = res.valueOf();
+    var [gcd, inv] = res;
+    if (!equal(gcd, BigNumber(1))) return NaN;
+    inv = mod(inv, b);
+    if (smaller(inv, BigNumber(0))) inv = add(inv, b);
+    return inv;
   }
 });
 // CONCATENATED MODULE: ./node_modules/mathjs/lib/esm/function/relational/larger.js
@@ -37265,44 +37346,42 @@ var createGamma = /* #__PURE__ */factory_factory(gamma_name, gamma_dependencies,
     Complex: function Complex(n) {
       if (n.im === 0) {
         return this(n.re);
-      }
+      } // Lanczos approximation doesn't work well with real part lower than 0.5
+      // So reflection formula is required
 
-      n = new _Complex(n.re - 1, n.im);
-      var x = new _Complex(gammaP[0], 0);
+
+      if (n.re < 0.5) {
+        // Euler's reflection formula
+        // gamma(1-z) * gamma(z) = PI / sin(PI * z)
+        // real part of Z should not be integer [sin(PI) == 0 -> 1/0 - undefined]
+        // thanks to imperfect sin implementation sin(PI * n) != 0
+        // we can safely use it anyway
+        var _t = new _Complex(1 - n.re, -n.im);
+
+        var r = new _Complex(Math.PI * n.re, Math.PI * n.im);
+        return new _Complex(Math.PI).div(r.sin()).div(this(_t));
+      } // Lanczos approximation
+      // z -= 1
+
+
+      n = new _Complex(n.re - 1, n.im); // x = gammaPval[0]
+
+      var x = new _Complex(gammaP[0], 0); // for (i, gammaPval) in enumerate(gammaP):
 
       for (var i = 1; i < gammaP.length; ++i) {
-        var real = n.re + i; // x += p[i]/(n+i)
+        // x += gammaPval / (z + i)
+        var gammaPval = new _Complex(gammaP[i], 0);
+        x = x.add(gammaPval.div(n.add(i)));
+      } // t = z + gammaG + 0.5
 
-        var den = real * real + n.im * n.im;
 
-        if (den !== 0) {
-          x.re += gammaP[i] * real / den;
-          x.im += -(gammaP[i] * n.im) / den;
-        } else {
-          x.re = gammaP[i] < 0 ? -Infinity : Infinity;
-        }
-      }
+      var t = new _Complex(n.re + gammaG + 0.5, n.im); // y = sqrt(2 * pi) * t ** (z + 0.5) * exp(-t) * x
 
-      var t = new _Complex(n.re + gammaG + 0.5, n.im);
       var twoPiSqrt = Math.sqrt(2 * Math.PI);
-      n.re += 0.5;
-      var result = pow(t, n);
+      var tpow = t.pow(n.add(0.5));
+      var expt = t.neg().exp(); // y = [x] * [sqrt(2 * pi)] * [t ** (z + 0.5)] * [exp(-t)]
 
-      if (result.im === 0) {
-        // sqrt(2*PI)*result
-        result.re *= twoPiSqrt;
-      } else if (result.re === 0) {
-        result.im *= twoPiSqrt;
-      } else {
-        result.re *= twoPiSqrt;
-        result.im *= twoPiSqrt;
-      }
-
-      var r = Math.exp(-t.re); // exp(-t)
-
-      t.re = r * Math.cos(-t.im);
-      t.im = r * Math.sin(-t.im);
-      return multiplyScalar(multiplyScalar(result, t), x);
+      return x.mul(twoPiSqrt).mul(tpow).mul(expt);
     },
     BigNumber: function BigNumber(n) {
       if (n.isInteger()) {
@@ -38275,9 +38354,9 @@ var createSort = /* #__PURE__ */factory_factory(sort_name, sort_dependencies, _r
 
 
 
-function Unit_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+function Unit_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
-function Unit_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { Unit_ownKeys(Object(source), true).forEach(function (key) { defineProperty_default()(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { Unit_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function Unit_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? Unit_ownKeys(Object(source), !0).forEach(function (key) { defineProperty_default()(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : Unit_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 
 
 
@@ -42505,9 +42584,8 @@ var createFactorial = /* #__PURE__ */factory_factory(factorial_name, factorial_d
 });
 // CONCATENATED MODULE: ./node_modules/mathjs/lib/esm/function/geometry/intersect.js
 
-
 var intersect_name = 'intersect';
-var intersect_dependencies = ['typed', 'config', 'abs', 'add', 'addScalar', 'matrix', 'multiply', 'multiplyScalar', 'divideScalar', 'subtract', 'smaller', 'equalScalar', 'flatten'];
+var intersect_dependencies = ['typed', 'config', 'abs', 'add', 'addScalar', 'matrix', 'multiply', 'multiplyScalar', 'divideScalar', 'subtract', 'smaller', 'equalScalar', 'flatten', 'isZero', 'isNumeric'];
 var createIntersect = /* #__PURE__ */factory_factory(intersect_name, intersect_dependencies, _ref => {
   var {
     typed,
@@ -42522,7 +42600,9 @@ var createIntersect = /* #__PURE__ */factory_factory(intersect_name, intersect_d
     subtract,
     smaller,
     equalScalar,
-    flatten
+    flatten,
+    isZero,
+    isNumeric
   } = _ref;
 
   /**
@@ -42648,21 +42728,16 @@ var createIntersect = /* #__PURE__ */factory_factory(intersect_name, intersect_d
     return arr;
   }
 
-  function _isNumeric(a) {
-    // intersect supports numbers and bignumbers
-    return typeof a === 'number' || isBigNumber(a);
-  }
-
   function _2d(x) {
-    return x.length === 2 && _isNumeric(x[0]) && _isNumeric(x[1]);
+    return x.length === 2 && isNumeric(x[0]) && isNumeric(x[1]);
   }
 
   function _3d(x) {
-    return x.length === 3 && _isNumeric(x[0]) && _isNumeric(x[1]) && _isNumeric(x[2]);
+    return x.length === 3 && isNumeric(x[0]) && isNumeric(x[1]) && isNumeric(x[2]);
   }
 
   function _4d(x) {
-    return x.length === 4 && _isNumeric(x[0]) && _isNumeric(x[1]) && _isNumeric(x[2]) && _isNumeric(x[3]);
+    return x.length === 4 && isNumeric(x[0]) && isNumeric(x[1]) && isNumeric(x[2]) && isNumeric(x[3]);
   }
 
   function _intersect2d(p1a, p1b, p2a, p2b) {
@@ -42671,6 +42746,7 @@ var createIntersect = /* #__PURE__ */factory_factory(intersect_name, intersect_d
     var d1 = subtract(o1, p1b);
     var d2 = subtract(o2, p2b);
     var det = subtract(multiplyScalar(d1[0], d2[1]), multiplyScalar(d2[0], d1[1]));
+    if (isZero(det)) return null;
 
     if (smaller(abs(det), config.epsilon)) {
       return null;
@@ -42703,7 +42779,10 @@ var createIntersect = /* #__PURE__ */factory_factory(intersect_name, intersect_d
 
     var d2121 = _intersect3dHelper(x2, x1, x2, x1, y2, y1, y2, y1, z2, z1, z2, z1);
 
-    var ta = divideScalar(subtract(multiplyScalar(d1343, d4321), multiplyScalar(d1321, d4343)), subtract(multiplyScalar(d2121, d4343), multiplyScalar(d4321, d4321)));
+    var numerator = subtract(multiplyScalar(d1343, d4321), multiplyScalar(d1321, d4343));
+    var denominator = subtract(multiplyScalar(d2121, d4343), multiplyScalar(d4321, d4321));
+    if (isZero(denominator)) return null;
+    var ta = divideScalar(numerator, denominator);
     var tb = divideScalar(addScalar(d1343, multiplyScalar(ta, d4321)), d4343);
     var pax = addScalar(x1, multiplyScalar(ta, subtract(x2, x1)));
     var pay = addScalar(y1, multiplyScalar(ta, subtract(y2, y1)));
@@ -48028,6 +48107,17 @@ var pureFunctionsAny_generated_identity = /* #__PURE__ */createIdentity({
   matrix: pureFunctionsAny_generated_matrix,
   typed: pureFunctionsAny_generated_typed
 });
+var invmod = /* #__PURE__ */createInvmod({
+  BigNumber: pureFunctionsAny_generated_BigNumber,
+  add: pureFunctionsAny_generated_add,
+  config: configReadonly_config,
+  equal: pureFunctionsAny_generated_equal,
+  isInteger: pureFunctionsAny_generated_isInteger,
+  mod,
+  smaller: pureFunctionsAny_generated_smaller,
+  typed: pureFunctionsAny_generated_typed,
+  xgcd
+});
 var pureFunctionsAny_generated_larger = /* #__PURE__ */createLarger({
   DenseMatrix: pureFunctionsAny_generated_DenseMatrix,
   config: configReadonly_config,
@@ -48395,6 +48485,8 @@ var intersect = /* #__PURE__ */createIntersect({
   divideScalar: pureFunctionsAny_generated_divideScalar,
   equalScalar: pureFunctionsAny_generated_equalScalar,
   flatten: pureFunctionsAny_generated_flatten,
+  isNumeric: pureFunctionsAny_generated_isNumeric,
+  isZero: pureFunctionsAny_generated_isZero,
   matrix: pureFunctionsAny_generated_matrix,
   multiply: pureFunctionsAny_generated_multiply,
   multiplyScalar: pureFunctionsAny_generated_multiplyScalar,
@@ -54722,7 +54814,7 @@ module.exports = function (argument) {
 
 /* global ActiveXObject -- old IE, WSH */
 var anObject = __webpack_require__("825a");
-var defineProperties = __webpack_require__("37e8");
+var definePropertiesModule = __webpack_require__("37e8");
 var enumBugKeys = __webpack_require__("7839");
 var hiddenKeys = __webpack_require__("d012");
 var html = __webpack_require__("1be4");
@@ -54800,7 +54892,7 @@ module.exports = Object.create || function create(O, Properties) {
     // add "__proto__" for Object.getPrototypeOf polyfill
     result[IE_PROTO] = O;
   } else result = NullProtoObject();
-  return Properties === undefined ? result : defineProperties(result, Properties);
+  return Properties === undefined ? result : definePropertiesModule.f(result, Properties);
 };
 
 
@@ -55598,16 +55690,37 @@ module.exports = function (iterator, fn, value, ENTRIES) {
 var global = __webpack_require__("da84");
 var DESCRIPTORS = __webpack_require__("83ab");
 var IE8_DOM_DEFINE = __webpack_require__("0cfb");
+var V8_PROTOTYPE_DEFINE_BUG = __webpack_require__("aed9");
 var anObject = __webpack_require__("825a");
 var toPropertyKey = __webpack_require__("a04b");
 
 var TypeError = global.TypeError;
 // eslint-disable-next-line es/no-object-defineproperty -- safe
 var $defineProperty = Object.defineProperty;
+// eslint-disable-next-line es/no-object-getownpropertydescriptor -- safe
+var $getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
+var ENUMERABLE = 'enumerable';
+var CONFIGURABLE = 'configurable';
+var WRITABLE = 'writable';
 
 // `Object.defineProperty` method
 // https://tc39.es/ecma262/#sec-object.defineproperty
-exports.f = DESCRIPTORS ? $defineProperty : function defineProperty(O, P, Attributes) {
+exports.f = DESCRIPTORS ? V8_PROTOTYPE_DEFINE_BUG ? function defineProperty(O, P, Attributes) {
+  anObject(O);
+  P = toPropertyKey(P);
+  anObject(Attributes);
+  if (typeof O === 'function' && P === 'prototype' && 'value' in Attributes && WRITABLE in Attributes && !Attributes[WRITABLE]) {
+    var current = $getOwnPropertyDescriptor(O, P);
+    if (current && current[WRITABLE]) {
+      O[P] = Attributes.value;
+      Attributes = {
+        configurable: CONFIGURABLE in Attributes ? Attributes[CONFIGURABLE] : current[CONFIGURABLE],
+        enumerable: ENUMERABLE in Attributes ? Attributes[ENUMERABLE] : current[ENUMERABLE],
+        writable: false
+      };
+    }
+  } return $defineProperty(O, P, Attributes);
+} : $defineProperty : function defineProperty(O, P, Attributes) {
   anObject(O);
   P = toPropertyKey(P);
   anObject(Attributes);
@@ -56086,6 +56199,7 @@ var getOwnPropertyNamesExternal = __webpack_require__("057f");
 var getOwnPropertySymbolsModule = __webpack_require__("7418");
 var getOwnPropertyDescriptorModule = __webpack_require__("06cf");
 var definePropertyModule = __webpack_require__("9bf2");
+var definePropertiesModule = __webpack_require__("37e8");
 var propertyIsEnumerableModule = __webpack_require__("d1e7");
 var arraySlice = __webpack_require__("f36a");
 var redefine = __webpack_require__("6eeb");
@@ -56252,6 +56366,7 @@ if (!NATIVE_SYMBOL) {
 
   propertyIsEnumerableModule.f = $propertyIsEnumerable;
   definePropertyModule.f = $defineProperty;
+  definePropertiesModule.f = $defineProperties;
   getOwnPropertyDescriptorModule.f = $getOwnPropertyDescriptor;
   getOwnPropertyNamesModule.f = getOwnPropertyNamesExternal.f = $getOwnPropertyNames;
   getOwnPropertySymbolsModule.f = $getOwnPropertySymbols;
@@ -56675,6 +56790,25 @@ module.exports = {
 
 /***/ }),
 
+/***/ "aed9":
+/***/ (function(module, exports, __webpack_require__) {
+
+var DESCRIPTORS = __webpack_require__("83ab");
+var fails = __webpack_require__("d039");
+
+// V8 ~ Chrome 36-
+// https://bugs.chromium.org/p/v8/issues/detail?id=3334
+module.exports = DESCRIPTORS && fails(function () {
+  // eslint-disable-next-line es/no-object-defineproperty -- required for testing
+  return Object.defineProperty(function () { /* empty */ }, 'prototype', {
+    value: 42,
+    writable: false
+  }).prototype != 42;
+});
+
+
+/***/ }),
+
 /***/ "af03":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -56984,11 +57118,13 @@ module.exports = false;
 /***/ }),
 
 /***/ "c65b":
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
+
+var NATIVE_BIND = __webpack_require__("40d5");
 
 var call = Function.prototype.call;
 
-module.exports = call.bind ? call.bind(call) : function () {
+module.exports = NATIVE_BIND ? call.bind(call) : function () {
   return call.apply(call, arguments);
 };
 
@@ -58599,15 +58735,17 @@ if (!IS_PURE && DESCRIPTORS && values.name !== 'values') try {
 /***/ }),
 
 /***/ "e330":
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
+
+var NATIVE_BIND = __webpack_require__("40d5");
 
 var FunctionPrototype = Function.prototype;
 var bind = FunctionPrototype.bind;
 var call = FunctionPrototype.call;
-var callBind = bind && bind.bind(call);
+var uncurryThis = NATIVE_BIND && bind.bind(call, call);
 
-module.exports = bind ? function (fn) {
-  return fn && callBind(call, fn);
+module.exports = NATIVE_BIND ? function (fn) {
+  return fn && uncurryThis(fn);
 } : function (fn) {
   return fn && function () {
     return call.apply(fn, arguments);
