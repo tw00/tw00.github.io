@@ -110,7 +110,7 @@ Wouldn&rsquo;t it be nice, if we could rebuild the button, push it to a componen
 </tr>
 </tbody>
 </table>
-<p>All of these virtualization environments have an artifact, a place where artifacts are stored and a runtime fot the artifact. Component-Based Deployments (or CBD for short) is simply changing the frame of reference.</p>
+<p>All of these virtualization environments have an artifact, a place where artifacts are stored and a runtime for the artifact. Component-Based Deployments (or CBD for short) is simply changing the frame of reference.</p>
 <p>Now, what&rsquo;s stopping us from doing this? This seems like a logical thing to do&mldr;</p>
 <p>Well, there are many reasons why this initially sounds like a bad idea. Some questions might be:</p>
 <ul>
@@ -171,7 +171,7 @@ cbd <span class=nb>test</span> component/button
 <li>inlined for critical rendering above the fold</li>
 <li>lazy-loadable</li>
 </ul>
-<p>A lot of this is handeled by build tools. And those build tools would have to change to support this new paradigm. However, <em>no-bundle native ESM</em> modules, which most modern browsers support, and HTTP/2 could potentially help to solve these problem.</p>
+<p>A lot of this is handeled by build tools. And those build tools would have to change to support this new paradigm. However, <em>&ldquo;no-bundle&rdquo; native ESM</em> modules, which most modern browsers support, and HTTP/2 could potentially help to solve these problem.</p>
 <p>Now the difficult part is that in a lot of cases components are not entirely isolated from the rest of the application. And this is where the real problems lie. We need a runtime that:</p>
 <ul>
 <li>&mldr; can deal with side effects</li>
