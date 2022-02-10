@@ -5,14 +5,12 @@
 <meta http-equiv=x-ua-compatible content="IE=edge">
 <meta name=viewport content="width=device-width,initial-scale=1">
 <meta name=author content="Thomas Weustenfeld">
-<meta property="og:url" content="https://tw00.dev/post/covid/">
-<script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/tw00.dev"},"articleSection":"post","name":"COVID-19 Simulator","headline":"COVID-19 Simulator","description":" let root = document.getElementById(\u0027exp-09\u0027).shadowRoot; let container = root.querySelector(\u0027.covid-sim\u0027); container.style.margin = \u00220\u0022;   ","inLanguage":"en-US","author":"Thomas Weustenfeld","creator":"Thomas Weustenfeld","publisher":"Thomas Weustenfeld","accountablePerson":"Thomas Weustenfeld","copyrightHolder":"Thomas Weustenfeld","copyrightYear":"2020","datePublished":"2020-03-17 10:38:55 \u002b0200 \u002b0200","dateModified":"2020-03-17 10:38:55 \u002b0200 \u002b0200","url":"https:\/\/tw00.dev\/post\/covid\/","wordCount":"11","keywords":["Blog"]}</script>
-<title>COVID-19 Simulator - Thomas Weustenfeld</title>
-<meta property="og:title" content="COVID-19 Simulator - Thomas Weustenfeld">
+<meta property="og:url" content="https://tw00.dev/post/js-tips/js-tips-05-camel/">
+<script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/tw00.dev"},"articleSection":"post","name":"","headline":"","description":"\u0026#34;test foo_bar.vue\u0026#34;.replace(\/(.*?)\\.vue\/ig, (m,g) =\u0026gt; g.replace(\/([^_\\s]\u002b)_?\/gi, (m,g) =\u0026gt; `${g[0].toUpperCase()}${g.slice(1)}` ) \u0026#34;foo bar_test.vue\u0026#34;.replace(\/(.*?)(?:\\.\\w\u002b)\u002b\/ig, (m,g) =\u0026gt; { return g.replace(\/([^_\\s]\u002b)[_\\s]?\/gi, (m,g) =\u0026gt; { return `${g[0].toUpperCase()}${g.slice(1)}` }) }) \u0026gt; \u0026#34;foo bar xxx\u0026#34;.replace(\/(\\w)([^_\\s]\u002b)[_\\s]?\/g, (_, f,r) =\u0026gt; f.toUpperCase() \u002b r ) \u0026#39;FooBarXxx\u0026#39; \u0026#34;FFooBarCool\u0026#34;.replace(\/([A-Z]\u002b[a-z]\u002b)\/g, (m,g,i) =\u0026gt; (i \u0026gt; 0 ? \u0026#34;_\u0026#34; : \u0026#34;\u0026#34;) \u002b m.toLowerCase() ) \u0026#34;Foo_BarCoolZZZ_XXX\u0026#34;.match(\/([A-Z]\u002b[a-z]*)\/g).map(s =\u0026gt; s.toLowerCase()).join(\u0026#39;_\u0026#39;) ","inLanguage":"en-US","author":"Thomas Weustenfeld","creator":"Thomas Weustenfeld","publisher":"Thomas Weustenfeld","accountablePerson":"Thomas Weustenfeld","copyrightHolder":"Thomas Weustenfeld","copyrightYear":"0001","datePublished":"0001-01-01 00:00:00 \u002b0000 UTC","dateModified":"0001-01-01 00:00:00 \u002b0000 UTC","url":"https:\/\/tw00.dev\/post\/js-tips\/js-tips-05-camel\/","wordCount":"51","keywords":["Blog"]}</script>
+<title> - Thomas Weustenfeld</title>
+<meta property="og:title" content=" - Thomas Weustenfeld">
 <meta property="og:type" content="article">
 <meta name=description content>
-<script src=https://unpkg.com/vue></script>
-<script src=/vue/components/exp-09/exp-09.js></script>
 <link rel=stylesheet href="https://fonts.googleapis.com/css?family=Source+Code+Pro|Lato:400,900">
 <link rel=stylesheet href="https://fonts.googleapis.com/css?family=Miriam+Libre&display=swap">
 <link rel=stylesheet href=/css/index.css>
@@ -33,18 +31,35 @@
 <a class=nav-link href=/tools>Tools</a>
 </div>
 </nav>
-<div class=container-wide>
+<div class=container>
 <nav class=site-nav>
 <a href=https://tw00.dev>Index</a>
 </nav>
+</div>
+<div class=container>
 <header class=post-header>
-<h1 class=post-title-small>COVID-19 Simulator</h1>
+<h1 class=post-title-small></h1>
 </header>
-<article class=post-min>
-<exp-09 id=exp-09>
-<script>let root=document.getElementById('exp-09').shadowRoot,container=root.querySelector('.covid-sim');container.style.margin="0"</script><blockquote>
-</blockquote>
+</div>
+<div class="container container-spacing-bottom">
+<article class=post>
+<time class=post-date datetime="0001-01-01 00:00:00 UTC">01 Jan 0001</time>
+<div></div>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=s2>&#34;test foo_bar.vue&#34;</span><span class=p>.</span><span class=nx>replace</span><span class=p>(</span><span class=sr>/(.*?)\.vue/ig</span><span class=p>,</span> <span class=p>(</span><span class=nx>m</span><span class=p>,</span><span class=nx>g</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=nx>g</span><span class=p>.</span><span class=nx>replace</span><span class=p>(</span><span class=sr>/([^_\s]+)_?/gi</span><span class=p>,</span> <span class=p>(</span><span class=nx>m</span><span class=p>,</span><span class=nx>g</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=sb>`</span><span class=si>${</span><span class=nx>g</span><span class=p>[</span><span class=mi>0</span><span class=p>].</span><span class=nx>toUpperCase</span><span class=p>()</span><span class=si>}${</span><span class=nx>g</span><span class=p>.</span><span class=nx>slice</span><span class=p>(</span><span class=mi>1</span><span class=p>)</span><span class=si>}</span><span class=sb>`</span> <span class=p>)</span>
+</code></pre></div><div class=highlight><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=s2>&#34;foo bar_test.vue&#34;</span><span class=p>.</span><span class=nx>replace</span><span class=p>(</span><span class=sr>/(.*?)(?:\.\w+)+/ig</span><span class=p>,</span> <span class=p>(</span><span class=nx>m</span><span class=p>,</span><span class=nx>g</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=p>{</span>
+  <span class=k>return</span> <span class=nx>g</span><span class=p>.</span><span class=nx>replace</span><span class=p>(</span><span class=sr>/([^_\s]+)[_\s]?/gi</span><span class=p>,</span> <span class=p>(</span><span class=nx>m</span><span class=p>,</span><span class=nx>g</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=p>{</span>
+    <span class=k>return</span> <span class=sb>`</span><span class=si>${</span><span class=nx>g</span><span class=p>[</span><span class=mi>0</span><span class=p>].</span><span class=nx>toUpperCase</span><span class=p>()</span><span class=si>}${</span><span class=nx>g</span><span class=p>.</span><span class=nx>slice</span><span class=p>(</span><span class=mi>1</span><span class=p>)</span><span class=si>}</span><span class=sb>`</span>
+  <span class=p>})</span>
+<span class=p>})</span>
+</code></pre></div><div class=highlight><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=o>&gt;</span> <span class=s2>&#34;foo bar xxx&#34;</span><span class=p>.</span><span class=nx>replace</span><span class=p>(</span><span class=sr>/(\w)([^_\s]+)[_\s]?/g</span><span class=p>,</span> <span class=p>(</span><span class=nx>_</span><span class=p>,</span> <span class=nx>f</span><span class=p>,</span><span class=nx>r</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=nx>f</span><span class=p>.</span><span class=nx>toUpperCase</span><span class=p>()</span> <span class=o>+</span> <span class=nx>r</span> <span class=p>)</span>
+<span class=s1>&#39;FooBarXxx&#39;</span>
+</code></pre></div><div class=highlight><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=s2>&#34;FFooBarCool&#34;</span><span class=p>.</span><span class=nx>replace</span><span class=p>(</span><span class=sr>/([A-Z]+[a-z]+)/g</span><span class=p>,</span> <span class=p>(</span><span class=nx>m</span><span class=p>,</span><span class=nx>g</span><span class=p>,</span><span class=nx>i</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=p>(</span><span class=nx>i</span> <span class=o>&gt;</span> <span class=mi>0</span> <span class=o>?</span> <span class=s2>&#34;_&#34;</span> <span class=o>:</span> <span class=s2>&#34;&#34;</span><span class=p>)</span> <span class=o>+</span> <span class=nx>m</span><span class=p>.</span><span class=nx>toLowerCase</span><span class=p>()</span> <span class=p>)</span>
+</code></pre></div><div class=highlight><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=s2>&#34;Foo_BarCoolZZZ_XXX&#34;</span><span class=p>.</span><span class=nx>match</span><span class=p>(</span><span class=sr>/([A-Z]+[a-z]*)/g</span><span class=p>).</span><span class=nx>map</span><span class=p>(</span><span class=nx>s</span> <span class=p>=&gt;</span> <span class=nx>s</span><span class=p>.</span><span class=nx>toLowerCase</span><span class=p>()).</span><span class=nx>join</span><span class=p>(</span><span class=s1>&#39;_&#39;</span><span class=p>)</span>
+</code></pre></div>
 </article>
+<div id=disqus_thread></div>
+<script>var disqus_config=function(){this.page.url="https://tw00.dev/post/js-tips/js-tips-05-camel/",this.page.identifier="daab35f0f5bb88a68020e55703291212"};(function(){var a=document,b=a.createElement('script');b.src='https://tw00-dev.disqus.com/embed.js',b.setAttribute('data-timestamp',+new Date),(a.head||a.body).appendChild(b)})()</script>
+<noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript>
 </div>
 </div>
 <footer class=site-footer>

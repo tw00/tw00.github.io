@@ -5,14 +5,12 @@
 <meta http-equiv=x-ua-compatible content="IE=edge">
 <meta name=viewport content="width=device-width,initial-scale=1">
 <meta name=author content="Thomas Weustenfeld">
-<meta property="og:url" content="https://tw00.dev/post/covid/">
-<script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/tw00.dev"},"articleSection":"post","name":"COVID-19 Simulator","headline":"COVID-19 Simulator","description":" let root = document.getElementById(\u0027exp-09\u0027).shadowRoot; let container = root.querySelector(\u0027.covid-sim\u0027); container.style.margin = \u00220\u0022;   ","inLanguage":"en-US","author":"Thomas Weustenfeld","creator":"Thomas Weustenfeld","publisher":"Thomas Weustenfeld","accountablePerson":"Thomas Weustenfeld","copyrightHolder":"Thomas Weustenfeld","copyrightYear":"2020","datePublished":"2020-03-17 10:38:55 \u002b0200 \u002b0200","dateModified":"2020-03-17 10:38:55 \u002b0200 \u002b0200","url":"https:\/\/tw00.dev\/post\/covid\/","wordCount":"11","keywords":["Blog"]}</script>
-<title>COVID-19 Simulator - Thomas Weustenfeld</title>
-<meta property="og:title" content="COVID-19 Simulator - Thomas Weustenfeld">
+<meta property="og:url" content="https://tw00.dev/post/component-based-deployment/">
+<script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/tw00.dev"},"articleSection":"post","name":"Getting high on Component-Based Deployments (CBD)","headline":"Getting high on Component-Based Deployments (CBD)","description":"Disclaimer: This article talks about React to examplify the concepts. It doesn\u0026rsquo;t mean that this couldn\u0026rsquo;t be done with any other framework.\n Today most CI systems for React applications looks something like this: Push code, merge code, install dependencies, run tests, create container, install dependencies again, deploy container to fresh nodes, tear down old nodes. etc.\nBut what if we could skip all these steps? What if we could just deploy a React component directly?","inLanguage":"en-US","author":"Thomas Weustenfeld","creator":"Thomas Weustenfeld","publisher":"Thomas Weustenfeld","accountablePerson":"Thomas Weustenfeld","copyrightHolder":"Thomas Weustenfeld","copyrightYear":"2022","datePublished":"2022-02-08 02:14:19.564 \u002b0000 UTC","dateModified":"2022-02-08 02:14:19.564 \u002b0000 UTC","url":"https:\/\/tw00.dev\/post\/component-based-deployment\/","wordCount":"1526","keywords":["Blog"]}</script>
+<title>Getting high on Component-Based Deployments (CBD) - Thomas Weustenfeld</title>
+<meta property="og:title" content="Getting high on Component-Based Deployments (CBD) - Thomas Weustenfeld">
 <meta property="og:type" content="article">
 <meta name=description content>
-<script src=https://unpkg.com/vue></script>
-<script src=/vue/components/exp-09/exp-09.js></script>
 <link rel=stylesheet href="https://fonts.googleapis.com/css?family=Source+Code+Pro|Lato:400,900">
 <link rel=stylesheet href="https://fonts.googleapis.com/css?family=Miriam+Libre&display=swap">
 <link rel=stylesheet href=/css/index.css>
@@ -33,18 +31,171 @@
 <a class=nav-link href=/tools>Tools</a>
 </div>
 </nav>
-<div class=container-wide>
+<div class=container>
 <nav class=site-nav>
 <a href=https://tw00.dev>Index</a>
 </nav>
+</div>
 <header class=post-header>
-<h1 class=post-title-small>COVID-19 Simulator</h1>
+<div class=post-title style="background-image:url(https://images.unsplash.com/photo-1610290432077-cf82cd170bf0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2670&q=80)">
+<div class=container>
+<h1>Getting high on Component-Based Deployments (CBD)</h1>
+</div>
+</div>
 </header>
-<article class=post-min>
-<exp-09 id=exp-09>
-<script>let root=document.getElementById('exp-09').shadowRoot,container=root.querySelector('.covid-sim');container.style.margin="0"</script><blockquote>
+<div class="container container-spacing-bottom">
+<article class=post>
+<time class=post-date datetime="2022-02-08 02:14:19 UTC">08 Feb 2022</time>
+<div></div>
+<blockquote>
+<p>Disclaimer: This article talks about React to examplify the concepts. It doesn&rsquo;t mean that this couldn&rsquo;t be done with any other framework.</p>
 </blockquote>
+<p>Today most CI systems for React applications looks something like this: Push code, merge code, install dependencies, run tests, create container, install dependencies again, deploy container to fresh nodes, tear down old nodes. etc.</p>
+<p>But what if we could skip all these steps? What if we could <em>just deploy</em> a React component directly? Without building a container, deploying it or tearing down anything? What if instead of having a container registry there was some kind of <em>component registry</em>?</p>
+<p>Let&rsquo;s recap why we containerize our applications in the first place: The core arguments for containers is that they isolate a single application and its dependencies. But what if we could do that with components? What if we could achive portability and virtualization at the javascript runtime level?</p>
+<h2 id=a-simple-example>A simple example</h2>
+<p>Let&rsquo;s explore this idea with a simple example.</p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=kr>import</span> <span class=p>{</span> <span class=nx>Button</span> <span class=p>}</span> <span class=nx>from</span> <span class=s2>&#34;./components&#34;</span><span class=p>;</span>
+
+<span class=kr>export</span> <span class=k>default</span> <span class=kd>function</span> <span class=nx>Page</span><span class=p>()</span> <span class=p>{</span>
+  <span class=k>return</span> <span class=p>(</span>
+    <span class=o>&lt;</span><span class=nx>div</span><span class=o>&gt;</span>
+      <span class=o>&lt;</span><span class=nx>Button</span><span class=o>&gt;</span><span class=nx>Hello</span> <span class=nx>World</span><span class=o>&lt;</span><span class=err>/Button&gt;</span>
+    <span class=o>&lt;</span><span class=err>/div&gt;</span>
+  <span class=p>);</span>
+<span class=p>}</span>
+</code></pre></div><p>Here we&rsquo;re importing and displaying a button which is a React component. But what if we want to change that button. Why do we have to go through the ordeal of building and deploying a new container?
+Wouldn&rsquo;t it be nice, if we could rebuild the button, push it to a component registry and tell the application to start using the new button. How about the component is imported from a component registry rather than a local file?</p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=kr>const</span> <span class=nx>registry</span> <span class=o>=</span> <span class=nx>componentRegistry</span><span class=p>(</span><span class=s2>&#34;http://cbd.design:4200&#34;</span><span class=p>);</span>
+
+<span class=kr>export</span> <span class=k>default</span> <span class=kd>function</span> <span class=nx>Page</span><span class=p>()</span> <span class=p>{</span>
+  <span class=kr>const</span> <span class=nx>Button</span> <span class=o>=</span> <span class=nx>registry</span><span class=p>.</span><span class=nx>get</span><span class=p>(</span><span class=s2>&#34;Button&#34;</span><span class=p>);</span>
+  <span class=k>return</span> <span class=p>(</span>
+    <span class=o>&lt;</span><span class=nx>div</span><span class=o>&gt;</span>
+      <span class=o>&lt;</span><span class=nx>Button</span><span class=o>&gt;</span><span class=nx>Hello</span> <span class=nx>World</span><span class=o>&lt;</span><span class=err>/Button&gt;</span>
+    <span class=o>&lt;</span><span class=err>/div&gt;</span>
+  <span class=p>);</span>
+<span class=p>}</span>
+</code></pre></div><h2 id=a-more-realistic-example>A more realistic example</h2>
+<p>Imagine a landing page that is made up from sections. Or, really take any website made by a typical page builder, like Squarespace. Each section is a &ldquo;building block&rdquo; and can be implemented as a React component. Rather than replacing basic UI components like a button, it would make more sense to replace components at the page level. The idea of component-based deployments is that these sections can be developed and deployed independently without the need to redeploy the applications itself. This is possible because not coupled to each other.</p>
+<p><img src=/img/squarespace.jpg alt></p>
+<h2 id=towards-component-based-deployment>Towards component-based deployment</h2>
+<p>What this means is that, essentially the applications becomes the runtime and we deploy to that runtime, like we deploy a lambda function to an AWS runtime. Think of the following analogy:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Artifact</th>
+<th>Registry</th>
+<th>Runtime</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Docker</strong></td>
+<td>Container</td>
+<td>Container Registry</td>
+<td>Docker Deamon</td>
+</tr>
+<tr>
+<td><strong>Lambda</strong></td>
+<td>Lambda</td>
+<td>S3</td>
+<td>AWS Lambda Runtime</td>
+</tr>
+<tr>
+<td><strong>CBD</strong></td>
+<td>Component</td>
+<td>Component Registry</td>
+<td>Node</td>
+</tr>
+</tbody>
+</table>
+<p>All of these virtualization environments have an artifact, a place where artifacts are stored and a runtime fot the artifact. Component-Based Deployments (or CBD for short) is simply changing the frame of reference.</p>
+<p>Now, what&rsquo;s stopping us from doing this? This seems like a logical thing to do&mldr;</p>
+<p>Well, there are many reasons why this initially sounds like a bad idea. Some questions might be:</p>
+<ul>
+<li>
+<p>First, how do we deal with dependencies? Aren&rsquo;t Docker containers completely isolated whereas React components are usually not at all?</p>
+</li>
+<li>
+<p>Second, how is that compatible with existing CI pipelines? How do we test a component and more importantly how do we test a component within its context?</p>
+</li>
+<li>
+<p>Third, how would that work with a browser? and bundlers? and code splitting? or CSS? Also, isn&rsquo;t that just like running HMR (Hot-module replacement) in production?</p>
+</li>
+</ul>
+<p>The answer is: We deal with these questions using the same methods that we use today. We just adopt them to this new paradigm. So lets see how we can apply these methods to Component-based Deployments.</p>
+<h3 id=publishing-workflow>Publishing workflow</h3>
+<p>Consider the following workflow, assuming a hypothetical command line tool <code>cbd</code>:</p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>cbd build component/button
+cbd push component/button
+</code></pre></div><p>which would build a single component and push it to a component registry (notice the similarity with Git, Docker or NPM). This takes care of isolating the component and transpiling it if necessary. We then simply push it to the component registry.</p>
+<h3 id=testing-workflow>Testing workflow</h3>
+<p>Further, consider the following workflow for testing a component:</p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>cbd lint component/button
+cbd <span class=nb>test</span> component/button
+</code></pre></div><p>This deals with everything we do today: Linting, unit testing, but also integration testing. Once all tests succeeded we can be confident that our component will behave as expected given certain inputs.</p>
+<h3 id=consuming-components>Consuming components</h3>
+<p>While building, publishing and testing seems relatively straightforward, the questions of consuming is really the heart of the problem. If we start treating Node like a container runtime, we also need to make sure it fullfills the requirements of a stable runtime environment. We need to have trust that pulling a new component into the runtime won&rsquo;t break anything, the same way we have trust, that pushing code to AWS Lambda will run reliably or spinning up a Docker container won&rsquo;t randomly crash the Docker deamon.</p>
+<h2 id=the-problem-that-needs-to-be-solved>The problem that needs to be solved</h2>
+<p>What we need is a super stable runtime environment that can</p>
+<ul>
+<li>&mldr; verify component are authentic</li>
+<li>&mldr; handle broken components</li>
+<li>&mldr; deal with versioning</li>
+<li>&mldr; hot-swap components</li>
+<li>&mldr; roll-back components</li>
+<li>&mldr; &ldquo;not crash&rdquo; and prevent memory leaks</li>
+</ul>
+<p>Also, we need a way to get components into the runtime by either:</p>
+<ul>
+<li>&mldr; using a well-protected API</li>
+<li>&mldr; subscribing the runtime to an event stream</li>
+</ul>
+<p>Additionally there are broadly two use cases: Server-side rendering and client-side rendering. While server-side rendering has more flexibility, client side rendering has more constraints. Ideally we only want to push code to the client that is:</p>
+<ul>
+<li>compiled and minified</li>
+<li>code-split into chunks</li>
+<li>inlined for critical rendering above the fold</li>
+<li>lazy-loadable</li>
+</ul>
+<p>A lot of this is handeled by build tools. And those build tools would have to change to support this new paradigm. However, <em>no-bundle native ESM</em> modules, which most modern browsers support, and HTTP/2 could potentially help to solve these problem.</p>
+<p>Now the difficult part is that in a lot of cases components are not entirely isolated from the rest of the application. And this is where the real problems lie. We need a runtime that:</p>
+<ul>
+<li>&mldr; can deal with side effects</li>
+<li>&mldr; can deal with global state</li>
+<li>&mldr; can deal with global styles</li>
+<li>&mldr; can deal with global configuration</li>
+<li>&mldr; can deal with events</li>
+<li>&mldr; can deal with asynchronously loaded components</li>
+</ul>
+<p>Now, does this exist yet? Obviously not. But can it be built? <strong>Absolutely</strong>.</p>
+<h2 id=conclusion>Conclusion</h2>
+<p>This article introduced the concept of Component-based Deployment (CBD): The idea of abstracting infrastructure to the highest possible level. Similar to how we deploy lambda functions or Docker containers, in a CBD world we deploy React components to a stable runtime. We could even call it &ldquo;serverless react&rdquo;.</p>
+<p>Now you might ask: Isn&rsquo;t that what web components try to achieve? And the answer is yes and no. Web components could be part of the solution, but don&rsquo;t really address any of the operational questions. Web components certainly have great properties in terms of isolation in the browser, however they do not support server-side rendering.</p>
+<p>Also, while the idea of a component registry is certainly not new (for example <a href=https://www.webcomponents.org/publish>webcomponents.org</a> has an extensive library of web components), it is not exactly solving the problem. Companies and individuals would want to run their own component registries (in the same way that people using AWS ECS or Lambda don&rsquo;t publish their code to a public registry in most cases).</p>
+<p>To conclude: Component-Based Deployment could completely change how web applications get delivered. Deployments of new features could happen within seconds rather than hours. Roll-backs could happen within seconds and only roll back a single faulty component rather than the whole application. QA could shift focus on component testing. And edge computing could greatly benefit as well. Imagine pulling in a new component from the registry for a quick A/B test within a particular region.</p>
+<p>Ultimatly though decentralized and distributed ecosystems of freely interchangeable components could emerge. Think of a market place for landing page building blocks for example (like Docker hub) and how that would change how we build web applications.</p>
+<h1 id=faq>FAQ</h1>
+<h3 id=what-is-a-component-registry-anyways>What is a component registry anyways?</h3>
+<p>At minimum a component registry would need to fullfil the basic requirements of an artifact store, like publishing, storing and retrieving components. But component registries could have many specialized features that are tailored to UI components, like:</p>
+<ul>
+<li>Storybook-like UI for viewing components</li>
+<li>Versioning of components (which would allow rolling back a single component rather than a whole application)</li>
+<li>QA environments for components (which would allow to test components in isolation)</li>
+<li>Documentation</li>
+</ul>
+<p>What if components could be associated with content types? or implement standard interfaces? For example a component registry could have 3 different components that are able to represent a content type &ldquo;video&rdquo; (as a thumbnail, as a lede, as a video player, etc.)</p>
+<p>The following concept shows an example how a component registry could look like:</p>
+<p><img src=/img/component_library_1.png alt>
+<img src=/img/component_library_2.png alt></p>
+<h3 id=how-is-this-different-from-hot-module-replacement-hmr>How is this different from Hot Module Replacement (HMR)?</h3>
+<p>HMR aims at a better developer experience by allowing developers to hot-swap modules without a full browser reload. This is not the same as swaping modules for production use, which generally would require a full page reload and has entirely different requirements in terms of robustness. A notification to the user that the app was updated could still be a good idea.</p>
 </article>
+<div id=disqus_thread></div>
+<script>var disqus_config=function(){this.page.url="https://tw00.dev/post/component-based-deployment/",this.page.identifier="07968844c3128e5c9a8e9e146f9e6be9"};(function(){var a=document,b=a.createElement('script');b.src='https://tw00-dev.disqus.com/embed.js',b.setAttribute('data-timestamp',+new Date),(a.head||a.body).appendChild(b)})()</script>
+<noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript>
 </div>
 </div>
 <footer class=site-footer>
