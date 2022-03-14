@@ -4,9 +4,9 @@
 <meta name=generator content="Hugo 0.91.2">
 <meta http-equiv=x-ua-compatible content="IE=edge">
 <meta name=viewport content="width=device-width,initial-scale=1">
-<meta name=author content="Thomas Weustenfeld">
+<meta name=author content="© Thomas Weustenfeld">
 <meta property="og:url" content="https://tw00.dev/post/component-based-deployment/">
-<script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/tw00.dev"},"articleSection":"post","name":"Getting high on Component-Based Deployments (CBD)","headline":"Getting high on Component-Based Deployments (CBD)","description":"Disclaimer: This article talks about React to examplify the concepts. It doesn\u0026rsquo;t mean that this couldn\u0026rsquo;t be done with any other framework.\n Today most CI systems for React applications looks something like this: Push code, merge code, install dependencies, run tests, create container, install dependencies again, deploy container to fresh nodes, tear down old nodes. etc.\nBut what if we could skip all these steps? What if we could just deploy a React component directly?","inLanguage":"en-US","author":"Thomas Weustenfeld","creator":"Thomas Weustenfeld","publisher":"Thomas Weustenfeld","accountablePerson":"Thomas Weustenfeld","copyrightHolder":"Thomas Weustenfeld","copyrightYear":"2022","datePublished":"2022-02-08 02:14:19.564 \u002b0000 UTC","dateModified":"2022-02-08 02:14:19.564 \u002b0000 UTC","url":"https:\/\/tw00.dev\/post\/component-based-deployment\/","wordCount":"1604","keywords":["Blog"]}</script>
+<script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/tw00.dev"},"articleSection":"post","name":"Getting high on Component-Based Deployments (CBD)","headline":"Getting high on Component-Based Deployments (CBD)","description":"Disclaimer: This article talks about React to examplify the concepts. It doesn\u0026rsquo;t mean that this couldn\u0026rsquo;t be done with any other framework.\n Today most CI systems for React applications looks something like this: Push code, merge code, install dependencies, run tests, create container, install dependencies again, deploy container to fresh nodes, tear down old nodes. etc.\nBut what if we could skip all these steps? What if we could just deploy a React component directly?","inLanguage":"en-US","author":"© Thomas Weustenfeld","creator":"© Thomas Weustenfeld","publisher":"© Thomas Weustenfeld","accountablePerson":"© Thomas Weustenfeld","copyrightHolder":"© Thomas Weustenfeld","copyrightYear":"2022","datePublished":"2022-02-08 02:14:19.564 \u002b0000 UTC","dateModified":"2022-02-08 02:14:19.564 \u002b0000 UTC","url":"https:\/\/tw00.dev\/post\/component-based-deployment\/","wordCount":"1609","keywords":["Blog"]}</script>
 <title>Getting high on Component-Based Deployments (CBD) - Thomas Weustenfeld</title>
 <meta property="og:title" content="Getting high on Component-Based Deployments (CBD) - Thomas Weustenfeld">
 <meta property="og:type" content="article">
@@ -36,7 +36,7 @@
 </nav>
 </div>
 <header class=post-header>
-<div class=post-title style="background-image:url(https://images.unsplash.com/photo-1610290432077-cf82cd170bf0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2670&q=80)">
+<div class=post-title style="background-image:url(https://images.unsplash.com/photo-1610290432077-cf82cd170bf0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2670&q=80);background-position:50%">
 <div class=container>
 <h1>Getting high on Component-Based Deployments (CBD)</h1>
 </div>
@@ -51,7 +51,7 @@
 </blockquote>
 <p>Today most CI systems for React applications looks something like this: Push code, merge code, install dependencies, run tests, create container, install dependencies again, deploy container to fresh nodes, tear down old nodes. etc.</p>
 <p>But what if we could skip all these steps? What if we could <em>just deploy</em> a React component directly? Without building a container, deploying it or tearing down anything? What if instead of having a container registry there was some kind of <em>component registry</em>?</p>
-<p>Let&rsquo;s recap why we containerize our applications in the first place: The core arguments for containers is that they isolate a single application and its dependencies. But what if we could do that with components? What if we could achive portability and virtualization at the javascript runtime level?</p>
+<p>Let&rsquo;s recap why we containerize our applications in the first place: The core arguments for containers is that they isolate a single application and its dependencies. But what if we could do that with components? What if we could achieve portability and virtualization at the javascript runtime level?</p>
 <h2 id=a-simple-example>A simple example</h2>
 <p>Let&rsquo;s explore this idea with a simple example.</p>
 <div class=highlight><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=kr>import</span> <span class=p>{</span> <span class=nx>Button</span> <span class=p>}</span> <span class=nx>from</span> <span class=s2>&#34;./components&#34;</span><span class=p>;</span>
@@ -99,7 +99,7 @@ Wouldn&rsquo;t it be nice, if we could rebuild the button, push it to a componen
 <tr>
 <td><strong>Lambda</strong></td>
 <td>Lambda</td>
-<td>S3</td>
+<td>S3<sup id=fnref:1><a href=#fn:1 class=footnote-ref role=doc-noteref>1</a></sup></td>
 <td>AWS Lambda Runtime</td>
 </tr>
 <tr>
@@ -146,7 +146,7 @@ cbd push component/button
 <p>Further, consider the following workflow for testing a component:</p>
 <div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>cbd lint component/button
 cbd <span class=nb>test</span> component/button
-</code></pre></div><p>This deals with everything we do today: Linting, unit testing, but also integration testing. Once all tests succeeded we can be confident that our component will behave as expected given certain inputs.</p>
+</code></pre></div><p>This deals with everything we do today: Linting, unit testing, but also integration testing. Once all tests succeeded we can be confident that our components will behave as expected given certain inputs.</p>
 <h3 id=consuming-components>Consuming components</h3>
 <p>While building, publishing and testing seems relatively straightforward, the questions of consuming is really at the heart of the problem. If we start treating Node like a container runtime, we also need to make sure it fullfills the requirements of a stable runtime environment. We need to have trust that pulling a new component into the runtime won&rsquo;t break anything, the same way we have trust, that pushing code to AWS Lambda will run reliably or spinning up a Docker container won&rsquo;t randomly crash the Docker deamon.</p>
 <h2 id=the-problem-that-needs-to-be-solved>The problem that needs to be solved</h2>
@@ -193,6 +193,14 @@ cbd <span class=nb>test</span> component/button
 <p>HMR aims at a better developer experience by allowing developers to hot-swap modules without a full browser reload. This is not the same as swaping modules for production use, which generally would require a full page reload and has entirely different requirements in terms of robustness. A notification to the user that the app was updated could still be a good idea.</p>
 <h3 id=wouldnt-it-be-easier-to-just-restart-node-every-time-there-is-a-code-change>Wouldn&rsquo;t it be easier to just restart Node every time there is a code change?</h3>
 <p>While this solves a lot of problems, hot-swapping is definitly a solvable problem. For example it has been <a href=https://oozou.com/blog/understanding-elixir-otp-applications-part-4-hot-swapping-modules-151>solved</a> in Erlang/Elixier. As a side note, I made a drop-in replacemant for <code>nodemon</code>, that takes the approach of restarting node on code changes rather than rebuilding a container: <a href=https://github.com/tw00/nodemon-remote>https://github.com/tw00/nodemon-remote</a> - it can be used for other things as well, but that was the primary motivation.</p>
+<section class=footnotes role=doc-endnotes>
+<hr>
+<ol>
+<li id=fn:1 role=doc-endnote>
+<p>See (this stack overflow answer)[https://stackoverflow.com/a/47042416].&#160;<a href=#fnref:1 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p>
+</li>
+</ol>
+</section>
 </article>
 <div id=disqus_thread></div>
 <script>var disqus_config=function(){this.page.url="https://tw00.dev/post/component-based-deployment/",this.page.identifier="07968844c3128e5c9a8e9e146f9e6be9"};(function(){var a=document,b=a.createElement('script');b.src='https://tw00-dev.disqus.com/embed.js',b.setAttribute('data-timestamp',+new Date),(a.head||a.body).appendChild(b)})()</script>
@@ -204,7 +212,7 @@ cbd <span class=nb>test</span> component/button
 <span itemscope itemtype=http://schema.org/Person>
 <div>
 <link itemprop=url href=https://tw00.dev>
-<span itemprop=name>Thomas Weustenfeld</span>
+<span itemprop=name>© Thomas Weustenfeld</span>
 </div>
 <div style=margin-top:.5rem>
 <a itemprop=sameAs href=https://github.com/tw00 title=GitHub><svg class="icon" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="github" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" class="svg-inline--fa fa-github fa-w-16 fa-2x"><path fill="currentcolor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6.0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6.0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3.0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1.0-6.2-.3-40.4-.3-61.4.0.0-70 15-84.7-29.8.0.0-11.4-29.1-27.8-36.6.0.0-22.9-15.7 1.6-15.4.0.0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5.0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9.0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4.0 33.7-.3 75.4-.3 83.6.0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6.0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9.0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
