@@ -6,7 +6,7 @@
 <meta name=viewport content="width=device-width,initial-scale=1">
 <meta name=author content="© Thomas Weustenfeld">
 <meta property="og:url" content="https://tw00.dev/post/css-tips/styled-components/">
-<script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/tw00.dev"},"articleSection":"post","name":"15 ways to style variants when using CSS-in-JS","headline":"15 ways to style variants when using CSS-in-JS","description":"I recently had an interesting discussion about CSS modules vs. CSS-in-JS and more specifically Emotion. We\u0026rsquo;ve been working on a codebase that uses CSS modules for a while now, and we\u0026rsquo;ve certainly come up with lots of patterns that make it easy to reason about CSS and keep it maintanble at scale. One of the central ideas are variants. For example we would create a base card component of certain color, size, shape and even hove state, but it would also have an optional variant property that would completly change the card\u0026rsquo;s appearance.","inLanguage":"en-US","author":"© Thomas Weustenfeld","creator":"© Thomas Weustenfeld","publisher":"© Thomas Weustenfeld","accountablePerson":"© Thomas Weustenfeld","copyrightHolder":"© Thomas Weustenfeld","copyrightYear":"2022","datePublished":"2022-03-12 00:19:27 -0400 -0400","dateModified":"2022-03-12 00:19:27 -0400 -0400","url":"https:\/\/tw00.dev\/post\/css-tips\/styled-components\/","wordCount":"3147","keywords":["Blog"]}</script>
+<script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/tw00.dev"},"articleSection":"post","name":"15 ways to style variants when using CSS-in-JS","headline":"15 ways to style variants when using CSS-in-JS","description":"I recently had an interesting discussion about CSS modules vs. CSS-in-JS and more specifically Emotion. We\u0026rsquo;ve been working on a codebase that uses CSS modules for a while now, and we\u0026rsquo;ve certainly come up with lots of patterns that make it easy to reason about CSS and keep it maintanble at scale. One of the central ideas are variants. For example we would create a base card component of certain color, size, shape and even hove state, but it would also have an optional variant property that would completly change the card\u0026rsquo;s appearance.","inLanguage":"en-US","author":"© Thomas Weustenfeld","creator":"© Thomas Weustenfeld","publisher":"© Thomas Weustenfeld","accountablePerson":"© Thomas Weustenfeld","copyrightHolder":"© Thomas Weustenfeld","copyrightYear":"2022","datePublished":"2022-03-12 00:19:27 -0400 -0400","dateModified":"2022-03-12 00:19:27 -0400 -0400","url":"https:\/\/tw00.dev\/post\/css-tips\/styled-components\/","wordCount":"3154","keywords":["Blog"]}</script>
 <title>15 ways to style variants when using CSS-in-JS - Thomas Weustenfeld</title>
 <meta property="og:title" content="15 ways to style variants when using CSS-in-JS - Thomas Weustenfeld">
 <meta property="og:type" content="article">
@@ -47,8 +47,8 @@
 <time class=post-date datetime="2022-03-12 00:19:27 -0400">12 Mar 2022</time>
 <div></div>
 <p>I recently had an interesting discussion about <a href=https://github.com/css-modules/css-modules>CSS modules</a> vs. <a href=https://en.wikipedia.org/wiki/CSS-in-JS>CSS-in-JS</a> and more specifically <a href=https://emotion.sh/docs/introduction>Emotion</a>. We&rsquo;ve been working on a codebase that uses CSS modules for a while now, and we&rsquo;ve certainly come up with lots of patterns that make it easy to reason about CSS and keep it maintanble at scale. One of the central ideas are <em>variants</em>. For example we would create a base card component of certain color, size, shape and even hove state, but it would also have an optional <code>variant</code> property that would completly change the card&rsquo;s appearance.</p>
-<h1 id=1-the-simple-case>1. The simple case</h1>
-<p>To implement a card component with emotion (or <a href=https://styled-components.com/>styled components</a>) one could come up, with something like this: (The CSS properties are not really important. This is just an example.)</p>
+<h1 id=1-the-naïve-case>1. The naïve case</h1>
+<p>To implement a card component with <a href=https://emotion.sh/docs/introduction>Emotion</a> (or <a href=https://styled-components.com/>styled components</a>) one could come up, with something like this: (The CSS properties are not really important. This is just an example.)</p>
 <div class=highlight><pre tabindex=0 class=chroma><code class=language-tsx data-lang=tsx><span class=kr>import</span> <span class=nx>styled</span> <span class=kr>from</span> <span class=s1>&#39;@emotion/styled&#39;</span><span class=p>;</span>
 
 <span class=kr>type</span> <span class=nx>IProps</span> <span class=o>=</span> <span class=p>{</span> <span class=nx>isVertical</span>: <span class=kt>boolean</span> <span class=p>};</span>
@@ -83,13 +83,13 @@
     <span class=na>background</span><span class=o>:</span> <span class=nf>var</span><span class=p>(</span><span class=o>--</span><span class=no>blue</span><span class=p>);</span>
   <span class=p>}</span>
 <span class=p>}</span>
-</code></pre></div><p>Much cleaner! Much easier to read. However, I didn&rsquo;t want to give up there,
-as CSS-in-JS has a lot of benefits. So here are <strong>15 different ways</strong> sz to style <em>variants</em>
+</code></pre></div><p>Much cleaner! Much easier to read! However, I didn&rsquo;t want to give up there,
+as CSS-in-JS has a lot of benefits. So here are <strong>15 different ways</strong> to style <em>variants</em>
 with CSS-in-JS.</p>
 <p>But before we get into it, here a few things to point out:</p>
 <ul>
 <li>I&rsquo;m hiding the additional utility code required to make each solution work, but I&rsquo;ll include it in an expandable section.</li>
-<li>I&rsquo;m using Emotion, but most of it should apply to styled components as well.</li>
+<li>I&rsquo;m using Emotion, but most of it should apply to <em>styled components</em> as well.</li>
 <li>I&rsquo;m including the generated CSS output for each solution in an expandable section as well.</li>
 <li>I designed all solutions so that they won&rsquo;t break syntax highlighting (I&rsquo;m using <code>jpoissonnier.vscode-styled-components</code> in VS Code).</li>
 </ul>
@@ -980,11 +980,25 @@ with CSS-in-JS.</p>
 <h1 id=16-bonus-styled-systems>16. BONUS: Styled systems</h1>
 <p>As a bonus, here is a solution that uses styled-systems.</p>
 <div class=highlight><pre tabindex=0 class=chroma><code class=language-tsx data-lang=tsx><span class=kr>import</span> <span class=nx>styled</span> <span class=kr>from</span> <span class=s1>&#39;@emotion/styled&#39;</span><span class=p>;</span>
-<span class=kr>import</span> <span class=p>{</span> <span class=nx>typography</span><span class=p>,</span> <span class=nx>space</span><span class=p>,</span> <span class=nx>color</span> <span class=p>}</span> <span class=kr>from</span> <span class=s1>&#39;styled-system&#39;</span><span class=p>;</span>
+<span class=kr>import</span> <span class=p>{</span>
+  <span class=nx>flexbox</span><span class=p>,</span>
+  <span class=nx>layout</span><span class=p>,</span>
+  <span class=nx>typography</span><span class=p>,</span>
+  <span class=nx>space</span><span class=p>,</span>
+  <span class=nx>color</span><span class=p>,</span>
+  <span class=nx>background</span><span class=p>,</span>
+<span class=p>}</span> <span class=kr>from</span> <span class=s1>&#39;styled-system&#39;</span><span class=p>;</span>
 
 <span class=kr>type</span> <span class=nx>IProps</span> <span class=o>=</span> <span class=p>{</span> <span class=nx>isVertical</span>: <span class=kt>boolean</span> <span class=p>};</span>
 
-<span class=kr>const</span> <span class=nx>StyledBox</span> <span class=o>=</span> <span class=nx>styled</span><span class=p>(</span><span class=s1>&#39;div&#39;</span><span class=p>)(</span><span class=nx>typography</span><span class=p>,</span> <span class=nx>space</span><span class=p>,</span> <span class=nx>color</span><span class=p>);</span>
+<span class=kr>const</span> <span class=nx>StyledBox</span> <span class=o>=</span> <span class=nx>styled</span><span class=p>(</span><span class=s1>&#39;div&#39;</span><span class=p>)(</span>
+  <span class=nx>typography</span><span class=p>,</span>
+  <span class=nx>space</span><span class=p>,</span>
+  <span class=nx>color</span><span class=p>,</span>
+  <span class=nx>layout</span><span class=p>,</span>
+  <span class=nx>flexbox</span><span class=p>,</span>
+  <span class=nx>background</span><span class=p>,</span>
+<span class=p>);</span>
 
 <span class=kr>const</span> <span class=nx>variants</span> <span class=o>=</span> <span class=p>{</span>
   <span class=nx>vertical</span><span class=o>:</span> <span class=p>{</span>
@@ -1067,7 +1081,7 @@ with CSS-in-JS.</p>
 </ul>
 <h1 id=conclusion>Conclusion</h1>
 <p>I guess, my point is. Once you move your CSS into JS, the entire world of JS becomes available to you. I believe these are all possible solutions, with minor differences. Pick one you prefer.</p>
-<p>Finally here&rsquo;s the proof that of of them work:</p>
+<p>Finally here&rsquo;s the proof that all of them work:</p>
 <p><img src=/img/css-in-js-proof.png alt></p>
 </article>
 <div id=disqus_thread></div>
